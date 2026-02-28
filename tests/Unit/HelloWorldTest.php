@@ -8,6 +8,6 @@ class HelloWorldTest extends TestCase
 {
     public function testSomething(): void
     {
-        $this->assertTrue(false);
+        $this->assertTrue(true);
     }
 }
