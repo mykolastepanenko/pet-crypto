@@ -29,7 +29,7 @@ services:
       - app-network
 
   mysql:
-    image: mysql:latest
+    image: mysql:8.4
     container_name: app-mysql
     environment:
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
