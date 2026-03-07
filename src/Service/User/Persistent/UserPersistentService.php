@@ -4,21 +4,19 @@ namespace App\Service\User\Persistent;
 
 use App\Component\Paginator\Dto\MetaDto;
 use App\Component\Paginator\Dto\PaginationDto;
-use App\Entity\User;
-use Doctrine\ORM\EntityManagerInterface;
+use App\Repository\UserRepository;
 use Knp\Component\Pager\PaginatorInterface;
 
 final readonly class UserPersistentService
 {
     public function __construct(
-        private EntityManagerInterface $entityManager,
+        private UserRepository $userRepository,
         private PaginatorInterface $paginator,
     ) {}
 
     public function getPaginatedUsers(int $page, int $limit): PaginationDto
     {
-        $queryBuilder = $this->entityManager
-            ->getRepository(User::class)
+        $queryBuilder = $this->userRepository
             ->createQueryBuilder('u')
             ->orderBy('u.id', 'ASC');
 
