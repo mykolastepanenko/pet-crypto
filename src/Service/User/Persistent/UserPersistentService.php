@@ -28,16 +28,13 @@ final readonly class UserPersistentService
 
         $users = $query->getItems();
         $totalItems = $query->getTotalItemCount();
-        $perPage = $query->getItemNumberPerPage();
-        $totalPages = (int)ceil($totalItems / $perPage);
 
         return new PaginationDto(
             $users,
             new MetaDto(
                 $page,
-                $perPage,
+                $limit,
                 $totalItems,
-                $totalPages,
             ),
         );
     }

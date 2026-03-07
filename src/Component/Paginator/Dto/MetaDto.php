@@ -8,7 +8,6 @@ readonly class MetaDto
         private int $currentPage,
         private int $limit,
         private int $totalItems,
-        private int $totalPages,
     ) {}
 
     public function getCurrentPage(): int
@@ -28,6 +27,6 @@ readonly class MetaDto
 
     public function getTotalPages(): int
     {
-        return $this->totalPages;
+        return (int)ceil($this->totalItems / $this->limit);
     }
 }
