@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Service\Persistent;
+namespace App\Service\User\Persistent;
 
 use App\Component\Paginator\Dto\MetaDto;
 use App\Component\Paginator\Dto\PaginationDto;
