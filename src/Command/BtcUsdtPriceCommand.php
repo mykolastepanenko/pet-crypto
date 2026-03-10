@@ -2,7 +2,7 @@
 
 namespace App\Command;
 
-use App\Service\Crypto\BtcUsdtInterface;
+use App\Service\Crypto\BtcUsdtPriceInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Input\InputInterface;
@@ -10,23 +10,21 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 #[AsCommand(
     name: 'app:btc-price',
-    description: 'Shows current BTC price in USDT'
+    description: 'Show BTC price'
 )]
-class BtcPriceCommand extends Command
+class BtcUsdtPriceCommand extends Command
 {
-    private BtcUsdtInterface $btcService;
-
-    public function __construct(BtcUsdtInterface $btcService)
-    {
+    public function __construct(
+        private BtcUsdtPriceInterface $btcService
+    ) {
         parent::__construct();
-        $this->btcService = $btcService;
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $price = $this->btcService->getPrice();
 
-        $output->writeln("BTC price: " . $price . " USDT");
+        $output->writeln("BTC price: $price USDT");
 
         return Command::SUCCESS;
     }

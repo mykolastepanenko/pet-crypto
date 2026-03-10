@@ -4,24 +4,21 @@ namespace App\Service\Crypto;
 
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 
-class CoinGeckoBtcPrice implements BtcUsdtInterface
+class CoinGeckoBtcPrice implements BtcUsdtPriceInterface
 {
-    private HttpClientInterface $httpClient;
-
-    public function __construct(HttpClientInterface $httpClient)
-    {
-        $this->httpClient = $httpClient;
-    }
+    public function __construct(
+        private HttpClientInterface $httpClient
+    ) {}
 
     public function getPrice(): float
     {
         $response = $this->httpClient->request(
             'GET',
-            'https://api.coingecko.com/api/v3/simple/price?ids=bitcoin&vs_currencies=usdt'
+            'https://api.coingecko.com/api/v3/simple/price?ids=bitcoin&vs_currencies=usd'
         );
 
         $data = $response->toArray();
 
-        return (float) $data['bitcoin']['usdt'];
+        return (float) $data['bitcoin']['usd'];
     }
 }

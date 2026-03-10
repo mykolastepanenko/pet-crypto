@@ -1,7 +1,7 @@
 <?php
 namespace App\Service\Crypto;
 
-interface BtcUsdtInterface
+interface BtcUsdtPriceInterface
 {
     public function getPrice(): float;
 }

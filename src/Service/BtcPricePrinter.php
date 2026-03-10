@@ -2,15 +2,12 @@
 
 namespace App\Service;
 
-use App\Service\Crypto\BtcUsdtInterface;
+use App\Service\Crypto\BtcUsdtPriceInterface;
 
 class BtcPricePrinter
 {
-    private BtcUsdtInterface $btc;
-
-    public function __construct(BtcUsdtInterface $btc)
+    public function __construct(private BtcUsdtPriceInterface $btc)
     {
-        $this->btc = $btc;
     }
 
     public function getPrice(): float

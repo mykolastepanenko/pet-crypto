@@ -4,7 +4,7 @@ namespace App\Service\Crypto;
 
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 
-class BinanceBtcPrice implements BtcUsdtInterface
+class BinanceBtcPrice implements BtcUsdtPriceInterface
 {
     private HttpClientInterface $httpClient;
 
