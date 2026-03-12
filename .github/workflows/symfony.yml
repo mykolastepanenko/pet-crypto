@@ -50,11 +50,11 @@ jobs:
       run: composer install -q --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist
     - name: Create Database and Schema
       env:
-        DATABASE_URL: mysql://root:root@127.0.0.1:3306/symfony_test?serverVersion=8.0
+        DATABASE_URL: mysql://root:root@127.0.0.1:3306/crypto?serverVersion=8.0
       run: |
         php bin/console doctrine:database:create --env=test --if-not-exists
         php bin/console doctrine:schema:create --env=test
     - name: Execute tests (Unit and Feature tests) via PHPUnit
       env:
-        DATABASE_URL: mysql://user:qwerty@127.0.0.1:3306/symfony_test?serverVersion=8.0
+        DATABASE_URL: mysql://user:qwerty@127.0.0.1:3306/crypto?serverVersion=8.0
       run: vendor/bin/phpunit
