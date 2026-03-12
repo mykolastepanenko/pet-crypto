@@ -11,9 +11,10 @@ class UserApiTest extends ApiTestCase
     public function testResponseSchema(): void
     {
         $response = static::createClient()->request('GET', '/api/users');
+        $this->assertResponseIsSuccessful();
+
         $data = $response->toArray();
 
-        $this->assertResponseIsSuccessful();
         $this->assertJson($response->getContent());
         $this->assertArrayHasKey('items', $data);
         $this->assertArrayHasKey('meta', $data);
