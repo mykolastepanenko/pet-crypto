@@ -11,6 +11,7 @@ services:
     depends_on:
       - mysql
       - redis
+      - rabbitmq
     networks:
       - app-network
 
@@ -44,16 +45,31 @@ services:
       - app-network
 
   redis:
-    image: redis:latest
+    image: redis:8.6
     container_name: app-redis
     ports:
       - "6379:6379"
     networks:
       - app-network
 
+  rabbitmq:
+    image: rabbitmq:4.2.4-management
+    container_name: app-rabbitmq
+    ports:
+      - "5672:5672" # Default AMQP port for client connections
+      - "15672:15672" # Default port for the management console UI
+    environment:
+      RABBITMQ_DEFAULT_USER: ${RABBITMQ_DEFAULT_USER}
+      RABBITMQ_DEFAULT_PASS: ${RABBITMQ_DEFAULT_PASS}
+    volumes:
+      - main_crypto_rabbitmq:/var/lib/rabbitmq/mnesia
+    networks:
+      - app-network
+
 volumes:
   main_crypto_mysql:
   main_crypto_nginx_logs:
+  main_crypto_rabbitmq:
 
 networks:
   app-network:

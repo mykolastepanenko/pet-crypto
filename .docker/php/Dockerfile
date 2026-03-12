@@ -3,11 +3,11 @@ FROM php:8.4-fpm
 WORKDIR /var/www/html
 
 RUN apt-get -y update
-RUN apt-get -y install git unzip nano rsync libicu-dev
+RUN apt-get -y install git unzip nano rsync libicu-dev librabbitmq-dev
 
 # Install php extentions
-RUN pecl install redis \
-    && docker-php-ext-enable redis \
+RUN pecl install redis amqp \
+    && docker-php-ext-enable redis amqp \
     && docker-php-ext-install pdo pdo_mysql intl
 
 # Install Symfony CLI
