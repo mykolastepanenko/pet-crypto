@@ -13,6 +13,7 @@ use Symfony\Component\Serializer\SerializerInterface;
 final class UserController extends AbstractController
 {
     private const int USER_PAGINATION_LIMIT = 10;
+    private const int MAX_USER_PAGINATION_LIMIT = 100;
 
     public function __construct(
         private readonly SerializerInterface $serializer,
@@ -28,7 +29,7 @@ final class UserController extends AbstractController
             $page = 1;
         }
 
-        if ($limit < 1 || $limit > self::USER_PAGINATION_LIMIT) {
+        if ($limit < 1 || $limit > self::MAX_USER_PAGINATION_LIMIT) {
             $limit = self::USER_PAGINATION_LIMIT;
         }
 
