@@ -21,7 +21,9 @@ jobs:
         image: mysql:8.4
         env:
           MYSQL_ROOT_PASSWORD: root
-          MYSQL_DATABASE: qwerty
+          MYSQL_DATABASE: crypto_test
+          MYSQL_USER: user
+          MYSQL_PASSWORD: qwerty
         ports:
           - 3306:3306
         options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
@@ -52,11 +54,6 @@ jobs:
       run: |
         php bin/console doctrine:database:create --env=test --if-not-exists
         php bin/console doctrine:schema:create --env=test
-    - name: Create custom MySQL user
-      run: |
-        sudo mysql -u root -proot -e "CREATE USER 'user'@'%' IDENTIFIED BY 'qwerty';"
-        sudo mysql -u root -proot -e "GRANT ALL PRIVILEGES ON crypto_test.* TO 'user'@'%' WITH GRANT OPTION;"
-        sudo mysql -u root -proot -e "FLUSH PRIVILEGES;"
     - name: Execute tests (Unit and Feature tests) via PHPUnit
       env:
         DATABASE_URL: mysql://user:qwerty@127.0.0.1:3306/symfony_test?serverVersion=8.0
