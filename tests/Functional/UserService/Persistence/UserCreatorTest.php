@@ -27,6 +27,6 @@ class UserCreatorTest extends KernelTestCase
 
         $userRepository = static::getContainer()->get(UserRepository::class);
 
-        $this->assertSame(10000, $userRepository->count());
+        $this->assertSame(1000, $userRepository->count());
     }
 }

@@ -30,7 +30,7 @@ final class UserFactory extends PersistentObjectFactory
     protected function defaults(): array|callable
     {
         return [
-            'name' => self::faker()->name,
+            'name' => self::faker()->name(),
             'age' => self::faker()->numberBetween($min = 18, $max = 100),
         ];
     }
