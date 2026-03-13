@@ -2,17 +2,33 @@ framework:
     messenger:
         # Uncomment this (and the failed transport below) to send failed messages to this transport for later handling.
         # failure_transport: failed
+  
+        serializer:
+          default_serializer: messenger.transport.symfony_serializer
+          symfony_serializer:
+            format: json
+            context: { }
 
         transports:
             # https://symfony.com/doc/current/messenger.html#transport-configuration
             async: '%env(MESSENGER_TRANSPORT_DSN)%'
-            serializer: messenger.transport.symfony_serializer
+
+            notifications:
+              dsn: '%env(MESSENGER_TRANSPORT_DSN)%'
+              options:
+                exchange:
+                  name: 'notifications'
+                  type: 'fanout' # default is 'fanout'
+                queues:
+                  notification.email:
+                  notification.telegram:
+                  # auto_setup: true # creates the 
             # failed: 'doctrine://default?queue_name=failed'
 #            sync: 'sync://'
 
         routing:
             # Route your messages to the transports
-            App\Message\DirectMessage: async
+            App\Message\MyMessage: async
 
 # when@test:
 #    framework:
