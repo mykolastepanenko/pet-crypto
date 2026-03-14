@@ -13,7 +13,7 @@ services:
       - redis
       - rabbitmq
     networks:
-      - app-network
+      - crypto-network
 
   nginx:
     image: nginx:stable-alpine
@@ -27,7 +27,7 @@ services:
     depends_on:
       - php
     networks:
-      - app-network
+      - crypto-network
 
   mysql:
     image: mysql:8.4
@@ -42,7 +42,7 @@ services:
     ports:
       - "3306:3306"
     networks:
-      - app-network
+      - crypto-network
 
   redis:
     image: redis:8.6
@@ -50,7 +50,7 @@ services:
     ports:
       - "6379:6379"
     networks:
-      - app-network
+      - crypto-network
 
   rabbitmq:
     image: rabbitmq:4.2.4-management
@@ -64,7 +64,7 @@ services:
     volumes:
       - main_crypto_rabbitmq:/var/lib/rabbitmq/mnesia
     networks:
-      - app-network
+      - crypto-network
 
 volumes:
   main_crypto_mysql:
@@ -72,5 +72,6 @@ volumes:
   main_crypto_rabbitmq:
 
 networks:
-  app-network:
+  crypto-network:
+    name: crypto-network
     driver: bridge
