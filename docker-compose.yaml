@@ -4,8 +4,15 @@ services:
       context: .
       dockerfile: .docker/php/Dockerfile
     container_name: app-php
+    environment:
+      XDEBUG_MODE: ${XDEBUG_MODE}
+      XDEBUG_CONFIG: ${XDEBUG_CONFIG}
+      PHP_IDE_CONFIG: ${PHP_IDE_CONFIG}
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
     volumes:
       - ./:/var/www/html
+      - ./.docker/php/xdebug.ini:/usr/local/etc/php/conf.d/xdebug.ini
     depends_on:
       - mysql
       - redis

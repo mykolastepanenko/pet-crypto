@@ -6,9 +6,9 @@ RUN apt-get -y update
 RUN apt-get -y install git unzip nano rsync libicu-dev librabbitmq-dev
 
 # Install php extentions
-RUN pecl install redis amqp \
-    && docker-php-ext-enable redis amqp \
-    && docker-php-ext-install pdo pdo_mysql intl
+RUN pecl install xdebug redis amqp \
+    && docker-php-ext-enable redis amqp xdebug \
+    && docker-php-ext-install pdo pdo_mysql intl sockets
 
 # Install Symfony CLI
 RUN curl -sS https://get.symfony.com/cli/installer | bash \
