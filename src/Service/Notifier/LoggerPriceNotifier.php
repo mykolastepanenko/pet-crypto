@@ -13,6 +13,9 @@ class LoggerPriceNotifier implements PriceNotifierInterface
 
     public function sendPrice(TradingPair $pair): void
     {
-        $this->logger->info('Sending price notification for ' . $pair);
+        $this->logger->info(
+            'Sending price notification',
+            ['pair' => (string) $pair]
+        );
     }
 }
