@@ -5,12 +5,18 @@ namespace App\ValueObject;
 readonly class TradingPair
 {
     public function __construct(
-        public string $base,
-        public string $quote
+        private string $base,
+        private string $quote
     ) {}
 
-    public function __toString(): string
+    public function getBase(): string
     {
-        return "{$this->base}/{$this->quote}";
+        return $this->base;
     }
+
+    public function getQuote(): string
+    {
+        return $this->quote;
+    }
+
 }

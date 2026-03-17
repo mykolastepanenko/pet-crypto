@@ -5,17 +5,21 @@ namespace App\Service\Notifier;
 use App\ValueObject\TradingPair;
 use Psr\Log\LoggerInterface;
 
-class LoggerPriceNotifier implements PriceNotifierInterface
+readonly class LoggerPriceNotifier implements PriceNotifierInterface
 {
-    public function __construct(private LoggerInterface $logger)
-    {
-    }
+    public function __construct(
+        private LoggerInterface $logger
+    ) {}
 
     public function sendPrice(TradingPair $pair): void
     {
         $this->logger->info(
             'Sending price notification',
-            ['pair' => (string) $pair]
+            [
+                'pair'  => $pair,
+                'base'  => $pair->getBase(),
+                'quote' => $pair->getQuote(),
+            ]
         );
     }
 }
