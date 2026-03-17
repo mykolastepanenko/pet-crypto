@@ -1,34 +1,40 @@
 framework:
-    messenger:
-        # Uncomment this (and the failed transport below) to send failed messages to this transport for later handling.
-        # failure_transport: failed
-  
-        serializer:
-          default_serializer: messenger.transport.symfony_serializer
-          symfony_serializer:
+  messenger:
+    # Uncomment this (and the failed transport below) to send failed messages to this transport for later handling.
+    # failure_transport: failed
+    
+    serializer:
+      default_serializer: messenger.transport.symfony_serializer
+      symfony_serializer:
+        format: json
+        context: { }
+    
+    transports:
+      # https://symfony.com/doc/current/messenger.html#transport-configuration
+      rabbitmq: '%env(MESSENGER_TRANSPORT_DSN)%'
+      
+      notifications:
+        dsn: '%env(MESSENGER_TRANSPORT_DSN)%'
+        options:
+          exchange:
+            name: 'notifications'
+            type: 'fanout' # default is 'fanout'
+          queues:
+            notification.email:
+            notification.telegram:
+            # auto_setup: true # creates the 
+      # failed: 'doctrine://default?queue_name=failed'
+      #            sync: 'sync://'
+      
+      first_redis_queue:
+        dsn: '%env(REDIS_MESSENGER_TRANSPORT_DSN)%'
+        options:
+          serializer:
             format: json
-            context: { }
-
-        transports:
-            # https://symfony.com/doc/current/messenger.html#transport-configuration
-            async: '%env(MESSENGER_TRANSPORT_DSN)%'
-
-            notifications:
-              dsn: '%env(MESSENGER_TRANSPORT_DSN)%'
-              options:
-                exchange:
-                  name: 'notifications'
-                  type: 'fanout' # default is 'fanout'
-                queues:
-                  notification.email:
-                  notification.telegram:
-                  # auto_setup: true # creates the 
-            # failed: 'doctrine://default?queue_name=failed'
-#            sync: 'sync://'
-
-        routing:
-            # Route your messages to the transports
-            App\Message\MyMessage: async
+    
+    routing:
+      # Route your messages to the transports
+      App\Message\MyMessage: rabbitmq
 
 # when@test:
 #    framework:

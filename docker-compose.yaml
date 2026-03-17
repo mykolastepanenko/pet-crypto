@@ -4,8 +4,15 @@ services:
       context: .
       dockerfile: .docker/php/Dockerfile
     container_name: app-php
+    environment:
+      XDEBUG_MODE: ${XDEBUG_MODE}
+      XDEBUG_CONFIG: ${XDEBUG_CONFIG}
+      PHP_IDE_CONFIG: ${PHP_IDE_CONFIG}
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
     volumes:
       - ./:/var/www/html
+      - ./.docker/php/xdebug.ini:/usr/local/etc/php/conf.d/xdebug.ini
     depends_on:
       - mysql
       - redis
@@ -55,6 +62,7 @@ services:
   rabbitmq:
     image: rabbitmq:4.2.4-management
     container_name: app-rabbitmq
+    hostname: rabbitmq
     ports:
       - "5672:5672" # Default AMQP port for client connections
       - "15672:15672" # Default port for the management console UI
