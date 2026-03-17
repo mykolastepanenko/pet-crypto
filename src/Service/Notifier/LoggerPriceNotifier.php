@@ -10,15 +10,14 @@ readonly class LoggerPriceNotifier implements PriceNotifierInterface
     public function __construct(
         private LoggerInterface $logger
     ) {}
-
-    public function sendPrice(TradingPair $pair): void
+    
+    public function sendPrice(TradingPair $pair, float $price): void
     {
         $this->logger->info(
             'Sending price notification',
             [
-                'pair'  => $pair,
-                'base'  => $pair->getBase(),
-                'quote' => $pair->getQuote(),
+                'pair'  => $pair->getBase() . '/' . $pair->getQuote(),
+                'price' => $price,
             ]
         );
     }

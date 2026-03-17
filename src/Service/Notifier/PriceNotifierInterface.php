@@ -7,5 +7,5 @@ use App\ValueObject\TradingPair;
 
 interface PriceNotifierInterface
 {
-    public function sendPrice(TradingPair $pair): void;
+    public function sendPrice(TradingPair $pair, float $price): void;
 }
