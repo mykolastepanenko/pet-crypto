@@ -37,7 +37,6 @@ readonly class BrevoEmailPriceNotifier implements PriceNotifierInterface
             ],
         ]);
 
-        // Якщо з ключем щось не так (наприклад, 401), API саме поверне помилку.
         if ($response->getStatusCode() !== 201) {
             $error = $response->toArray(false);
             throw new \Exception("Brevo API Error: " . ($error['message'] ?? 'Invalid request'));
