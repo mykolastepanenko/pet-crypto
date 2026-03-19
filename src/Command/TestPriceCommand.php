@@ -30,7 +30,7 @@ class TestPriceCommand extends Command
 
             $output->writeln('<info>Success!</info>');
         } catch (\Exception $e) {
-            $output->writeln('<error>' . $e->getMessage() . '</error>');
+            $output->writeln('Error: ' . $e->getMessage());
             return Command::FAILURE;
         }
 

@@ -15,10 +15,6 @@ readonly class BrevoEmailPriceNotifier implements PriceNotifierInterface
 
     public function sendPrice(TradingPair $pair, float $price): void
     {
-        if (empty($this->brevoApiKey) || str_contains($this->brevoApiKey, 'replace_me')) {
-            throw new \Exception("Помилка: API ключ Brevo не знайдено в оточенні (.env.local)");
-        }
-
         $formattedPrice = number_format($price, 2, '.', ',');
         $pairName = "{$pair->getBase()}/{$pair->getQuote()}";
 
@@ -34,21 +30,17 @@ readonly class BrevoEmailPriceNotifier implements PriceNotifierInterface
                     'email' => 'mykolaizzypetteam487@gmail.com'
                 ],
                 'to' => [
-                    ['email' => $this->adminEmail, 'name' => 'Адмін'],
-                    ['email' => 'vit11189@gmail.com', 'name' => 'Віталій'],
-                    ['email' => 'ianamostuka@gmail.com', 'name' => 'Яна'],
-                    ['email' => 'Nikolaua36@gmail.com', 'name' => 'Микола'],
+                    ['email' => $this->adminEmail]
                 ],
                 'subject' => "Ціна {$pairName}: {$formattedPrice}",
-                'htmlContent' => "<h3>Привіт!</h3><p>Крипто-бот повідомляє, що ціна <b>{$pairName}</b> зараз <b>{$formattedPrice}</b>.</p>"
+                'htmlContent' => "<h3>Крипто-сповіщення</h3><p>Пара <b>{$pairName}</b> зараз коштує <b>{$formattedPrice}</b></p>"
             ],
         ]);
 
-
+        // Якщо з ключем щось не так (наприклад, 401), API саме поверне помилку.
         if ($response->getStatusCode() !== 201) {
-            $errorData = $response->toArray(false);
-            $message = $errorData['message'] ?? 'Unknown error';
-            throw new \Exception("Brevo API Errmykolaizzypetteam487@gmail.comor ({$response->getStatusCode()}): " . $message);
+            $error = $response->toArray(false);
+            throw new \Exception("Brevo API Error: " . ($error['message'] ?? 'Invalid request'));
         }
     }
 }
