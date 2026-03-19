@@ -2,29 +2,37 @@
 
 namespace App\Command;
 
-use App\Service\Notifier\LoggerPriceNotifier;
+use App\Service\Crypto\BtcUsdtPriceInterface;
+use App\Service\Notifier\PriceNotifierInterface;
 use App\ValueObject\TradingPair;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-#[AsCommand(name: 'app:test-price', description: 'Тест сервісу нотифікації')]
+#[AsCommand(name: 'app:test-price')]
 class TestPriceCommand extends Command
 {
     public function __construct(
-        private LoggerPriceNotifier $notifier
+        private BtcUsdtPriceInterface $priceProvider,
+        private PriceNotifierInterface $notifier
     ) {
         parent::__construct();
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $pair = new TradingPair('BTC', 'USDT');
+        $pair = new TradingPair('BTC', 'USD');
 
-        $this->notifier->sendPrice($pair);
+        try {
+            $price = $this->priceProvider->getPrice();
+            $this->notifier->sendPrice($pair, $price);
 
-        $output->writeln('<info>Повідомлення відправлено в лог!</info>');
+            $output->writeln('<info>Success!</info>');
+        } catch (\Exception $e) {
+            $output->writeln('Error: ' . $e->getMessage());
+            return Command::FAILURE;
+        }
 
         return Command::SUCCESS;
     }
