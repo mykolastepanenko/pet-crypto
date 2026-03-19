@@ -10,7 +10,7 @@ readonly class BrevoEmailPriceNotifier implements PriceNotifierInterface
     public function __construct(
         private HttpClientInterface $httpClient,
         private string $brevoApiKey,
-        private string $adminEmail // Symfony автоматично підставить %admin_email%
+        private string $adminEmail
     ) {}
 
     public function sendPrice(TradingPair $pair, float $price): void
