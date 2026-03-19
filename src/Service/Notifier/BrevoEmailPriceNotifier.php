@@ -10,7 +10,7 @@ readonly class BrevoEmailPriceNotifier implements PriceNotifierInterface
     public function __construct(
         private HttpClientInterface $httpClient,
         private string $brevoApiKey,
-        private string $adminEmail
+        private string $adminEmail // Symfony автоматично підставить %admin_email%
     ) {}
 
     public function sendPrice(TradingPair $pair, float $price): void
@@ -36,10 +36,5 @@ readonly class BrevoEmailPriceNotifier implements PriceNotifierInterface
                 'htmlContent' => "<h3>Крипто-сповіщення</h3><p>Пара <b>{$pairName}</b> зараз коштує <b>{$formattedPrice}</b></p>"
             ],
         ]);
-
-        if ($response->getStatusCode() !== 201) {
-            $error = $response->toArray(false);
-            throw new \Exception("Brevo API Error: " . ($error['message'] ?? 'Invalid request'));
-        }
     }
 }
