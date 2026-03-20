@@ -31,10 +31,11 @@ framework:
         options:
           serializer:
             format: json
-    
+
     routing:
       # Route your messages to the transports
       App\Message\MyMessage: rabbitmq
+      App\Message\IvanMessage: first_redis_queue
 
 # when@test:
 #    framework:

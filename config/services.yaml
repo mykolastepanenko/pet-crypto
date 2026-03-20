@@ -18,6 +18,8 @@ services:
     # this creates a service per class whose id is the fully-qualified class name
     App\:
         resource: '../src/'
+    App\Service\Message\IvanMessageLoggerInterface:
+        alias: App\Service\Message\LoggerIvanMessageLogger
 
     App\Service\Crypto\BtcUsdtPriceInterface:
         alias: App\Service\Crypto\CoinGeckoBtcPrice
@@ -31,5 +33,6 @@ services:
             $adminEmail: '%admin_email%'
     App\Service\Notifier\PriceNotifierInterface:
         alias: App\Service\Notifier\BrevoEmailPriceNotifier
+
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
