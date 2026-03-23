@@ -31,11 +31,16 @@ framework:
         options:
           serializer:
             format: json
-    
+
+      ivan_redis_queue:
+        dsn: '%env(REDIS_MESSENGER_TRANSPORT_DSN)%'
+        options:
+          serializer:
+            format: json
     routing:
       # Route your messages to the transports
-      App\Message\MyMessage: rabbitmq
-
+        App\Message\MyMessage: rabbitmq
+        App\Message\IvanMessage: ivan_redis_queue
 # when@test:
 #    framework:
 #        messenger:
