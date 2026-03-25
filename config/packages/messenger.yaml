@@ -37,10 +37,18 @@ framework:
         options:
           serializer:
             format: json
+
+      email_price_notification_queue:
+          dsn: '%env(REDIS_MESSENGER_TRANSPORT_DSN)%'
+      telegram_price_notification_queue:
+          dsn: '%env(REDIS_MESSENGER_TRANSPORT_DSN)%'
     routing:
       # Route your messages to the transports
         App\Message\MyMessage: rabbitmq
         App\Message\IvanMessage: ivan_redis_queue
+        App\Message\BtcPriceNotification:
+          - email_price_notification_queue
+          - telegram_price_notification_queue
 # when@test:
 #    framework:
 #        messenger:
